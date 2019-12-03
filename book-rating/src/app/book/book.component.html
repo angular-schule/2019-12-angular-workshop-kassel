@@ -1,4 +1,8 @@
-<h2>{{ book.title }} - {{ book.rating }}</h2>
+<h2>{{ book.title }}
+  <ng-container *ngFor="let s of countOfStars">
+    ⭐️
+  </ng-container>
+</h2>
 
 <p>
   {{ book.description }}
