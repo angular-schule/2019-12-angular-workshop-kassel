@@ -20,8 +20,4 @@ export class BookComponent {
   doRateDown() {
     this.rateDown.emit(this.book);
   }
-
-  get countOfStars() {
-    return new Array(this.book.rating);
-  }
 }
