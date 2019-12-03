@@ -1,19 +1,23 @@
-<h2>{{ book.title }}
-  <ng-container *ngFor="let s of countOfStars">
-    ⭐️
-  </ng-container>
-</h2>
+<div class="card mb-4">
+    <div class="card-body bg-light">
+      <img class="img-thumbnail float-right" src="https://api.angular.schule/avatar/{{ book.rating }}">
+      <div class="card-title">
+        <h2>
+          {{ book.title }}
+          <span class="badge badge-secondary">
+            <ng-container *ngFor="let s of [].constructor(book.rating)">⭐️</ng-container>
+          </span>
+        </h2>
+      </div>
+      <p>{{ book.description }}</p>
 
-<p>
-  {{ book.description }}
-</p>
+      <button
+        (click)="doRateDown()"
+        class="btn btn-secondary mr-2"> - </button>
 
-<button class="btn btn-secondary"
-  (click)="doRateDown()">
-  -
-</button>
+      <button
+        (click)="doRateUp()"
+        class="btn btn-primary mr-2"> + </button>
 
-<button class="btn btn-primary"
-  (click)="doRateUp()">
-  +
-</button>
+    </div>
+  </div>
