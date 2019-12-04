@@ -1,0 +1,28 @@
+<form [formGroup]="bookForm">
+
+  <div class="form-group">
+    <label for="isbn">ISBN</label>
+    <input type="text" class="form-control" id="isbn">
+
+    <div class="feedback-error">
+      Bitte geben Sie eine ISBN an.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Titel</label>
+    <input type="text" class="form-control" id="title">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Titel</label>
+    <textarea class="form-control" id="description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <button
+      type="submit"
+      class="btn btn-primary mb-4">Erzeugen</button>
+  </div>
+
+</form>
