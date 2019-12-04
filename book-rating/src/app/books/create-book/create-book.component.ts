@@ -14,6 +14,6 @@ export class CreateBookComponent {
       Validators.minLength(3)
     ]),
     title: new FormControl('', Validators.required),
-    desciption: new FormControl('')
+    description: new FormControl('')
   });
 }
