@@ -4,8 +4,16 @@
     <label for="isbn">ISBN</label>
     <input formControlName="isbn" type="text" class="form-control" id="isbn">
 
-    <div *ngIf="false" class="feedback-error">
+    <div *ngIf="isInvalid('isbn')" class="feedback-error">
+      Fehler:
+    </div>
+
+    <div *ngIf="hasError('isbn', 'required')" class="feedback-error">
       Bitte geben Sie eine ISBN an.
+    </div>
+
+    <div *ngIf="hasError('isbn', 'minlength')" class="feedback-error">
+      Bitte geben Sie eine ISBN mit mindestens 3 Zeichen an.
     </div>
   </div>
 
@@ -22,7 +30,9 @@
   <div class="form-group">
     <button
       type="submit"
-      class="btn btn-primary mb-4">Erzeugen</button>
+      class="btn btn-primary mb-4"
+      [disabled]="bookForm.invalid"
+      >Erzeugen</button>
   </div>
 
 </form>

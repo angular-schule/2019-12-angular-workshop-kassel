@@ -16,4 +16,14 @@ export class CreateBookComponent {
     title: new FormControl('', Validators.required),
     description: new FormControl('')
   });
+
+  isInvalid(name: string) {
+    const control = this.bookForm.get(name);
+    return control.touched && control.invalid;
+  }
+
+  hasError(name: string, errorCode: string) {
+    const control = this.bookForm.get(name);
+    return control.touched && control.hasError(errorCode);
+  }
 }
