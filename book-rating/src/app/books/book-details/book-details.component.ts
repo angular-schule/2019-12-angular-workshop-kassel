@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of, interval, Subscription } from 'rxjs';
-import { map, take, takeWhile, takeUntil } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -9,51 +9,23 @@ import { map, take, takeWhile, takeUntil } from 'rxjs/operators';
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss']
 })
-export class BookDetailsComponent implements OnInit, OnDestroy {
+export class BookDetailsComponent implements OnInit {
 
   isbn$ = this.route.paramMap.pipe(
     map(paramMap => paramMap.get('isbn'))
   );
 
-  number$: Observable<number>;
-
-  active = true;
-
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
 
-    // 1. Observer
-    const observer = {
-      next: x => console.log(x),
-      error: err => console.error(err),
-      complete: () => console.log('COMPLETE!')
-    };
+    from([1, 2 , 3, 4, 5, 6, 7, 8, 9, 10]).pipe(
+      map(x => x * 10)
+      // 2. lasse nur Werte durch, die größer sind als 30
+      // 3. bilde die Summe aus allen Zahlen
+      // 4. knobelaufgabe: entsprechend der Summe, so viele Smilies ausgeben
 
-    // 2. Observable
-    const myObservable = new Observable(subscriber => {
-      subscriber.next('😀');
-      subscriber.next('😍');
-      subscriber.next('😡');
+    ).subscribe(console.log);
 
-      setTimeout(() => {
-        console.log('Brennt das Licht im Kühlschrank?');
-        subscriber.next('😳');
-      }, 2000);
-
-      subscriber.error('FEHLER!');
-    });
-
-    // 3. Subscription
-    const subscription = myObservable.subscribe(observer);
-    // subscription.unsubscribe();
-
-    // warnung! leak
-    this.number$ = interval(1000);
-
-  }
-
-  ngOnDestroy() {
-    this.active = false;
   }
 }
