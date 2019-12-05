@@ -1,10 +1,15 @@
-<h1>{{ (book$ | async)?.title }}</h1>
 
-<button (click)="open = !open">More...</button>
-<p *ngIf="open">
-  Ist offen!
-  {{ (book$ | async)?.description }}
-</p>
+<ng-container *ngIf="book$ | async as book; else loading">
+  <h1>{{ book.title }}</h1>
+
+  <p>
+    {{ book.description }}
+  </p>
+</ng-container>
+
+<ng-template #loading>
+  Lade allererstes Buch....
+</ng-template>
 
 <a routerLink="/book/9783864904523">
   Gehe zu 9783864904523

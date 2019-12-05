@@ -10,19 +10,12 @@ import { BookStoreService } from '../shared/book-store.service';
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.scss']
 })
-export class BookDetailsComponent implements OnInit {
+export class BookDetailsComponent {
 
   book$ = this.route.paramMap.pipe(
     map(paramMap => paramMap.get('isbn')),
-    switchMap(isbn => this.bs.getSingle(isbn)),
-    shareReplay(1)
+    switchMap(isbn => this.bs.getSingle(isbn))
   );
 
-  open = false;
-
   constructor(private route: ActivatedRoute, private bs: BookStoreService) { }
-
-  ngOnInit() {
-
-  }
 }
