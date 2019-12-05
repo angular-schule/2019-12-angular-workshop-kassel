@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, interval, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 
 @Component({
@@ -32,11 +32,15 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     subscription.unsubscribe();
 
     // warnung! leak
-    this.sub2 = interval(1000).subscribe(e => console.log(e));
+    this.sub2 = interval(1000)
+      .pipe(
+        take(10)
+      )
+      .subscribe(e => console.log(e));
 
   }
 
   ngOnDestroy() {
-    this.sub2.unsubscribe();
+    // this.sub2.unsubscribe();
   }
 }
