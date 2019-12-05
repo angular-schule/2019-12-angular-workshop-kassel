@@ -30,8 +30,23 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
       complete: () => console.log('COMPLETE!')
     };
 
-    const subscription = of('😎', '🧐', '🤠', '🤮').subscribe(observer);
-    subscription.unsubscribe();
+    // 2. Observable
+    const myObservable = new Observable(subscriber => {
+      subscriber.next('😀');
+      subscriber.next('😍');
+      subscriber.next('😡');
+
+      setTimeout(() => {
+        console.log('Brennt das Licht im Kühlschrank?');
+        subscriber.next('😳');
+      }, 2000);
+
+      subscriber.error('FEHLER!');
+    });
+
+    // 3. Subscription
+    const subscription = myObservable.subscribe(observer);
+    // subscription.unsubscribe();
 
     // warnung! leak
     this.number$ = interval(1000);
