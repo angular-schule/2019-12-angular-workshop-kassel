@@ -1,5 +1,13 @@
 <h1>{{ (book$ | async)?.title }}</h1>
 
-<p>{{ (book$ | async)?.description }}</p>
+<button (click)="open = !open">More...</button>
+<p *ngIf="open">
+  Ist offen!
+  {{ (book$ | async)?.description }}
+</p>
+
+<a routerLink="/book/9783864904523">
+  Gehe zu 9783864904523
+</a><br>
 
 <a routerLink="/book/222">Gehe zu 222</a>
