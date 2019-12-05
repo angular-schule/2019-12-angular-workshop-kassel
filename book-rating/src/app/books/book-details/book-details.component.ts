@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from, of } from 'rxjs';
-import { map, filter, scan, reduce, repeat, mergeMap } from 'rxjs/operators';
+import { map, filter, scan, reduce, repeat, mergeMap, concatMap, switchMap, share } from 'rxjs/operators';
 import { BookStoreService } from '../shared/book-store.service';
 
 
@@ -12,19 +12,15 @@ import { BookStoreService } from '../shared/book-store.service';
 })
 export class BookDetailsComponent implements OnInit {
 
-  isbn$ = this.route.paramMap.pipe(
-    map(paramMap => paramMap.get('isbn'))
+  book$ = this.route.paramMap.pipe(
+    map(paramMap => paramMap.get('isbn')),
+    switchMap(isbn => this.bs.getSingle(isbn)),
+    share()
   );
 
   constructor(private route: ActivatedRoute, private bs: BookStoreService) { }
 
   ngOnInit() {
-
-    // Vorsicht! Anti-Pattern!
-    this.route.paramMap.pipe(
-      map(paramMap => paramMap.get('isbn')),
-      mergeMap(isbn => this.bs.getSingle(isbn))
-    ).subscribe(x => console.log(x));
 
   }
 }
