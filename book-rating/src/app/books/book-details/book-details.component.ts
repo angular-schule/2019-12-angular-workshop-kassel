@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from, of } from 'rxjs';
 import { map, filter, scan, reduce, repeat, mergeMap } from 'rxjs/operators';
+import { BookStoreService } from '../shared/book-store.service';
 
 
 @Component({
@@ -15,19 +16,17 @@ export class BookDetailsComponent implements OnInit {
     map(paramMap => paramMap.get('isbn'))
   );
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private bs: BookStoreService) { }
 
   ngOnInit() {
 
-    from([1, 2 , 3, 4, 5, 6, 7, 8, 9, 10]).pipe(
-      map(x => x * 10),
-      filter(x => x > 30),
-      reduce((x, y) => x + y),
-      mergeMap(x =>
-        of('❤️').pipe(repeat(x))
-      ),
-      reduce((x, y) => x + y)
-    ).subscribe(console.log);
+    // Vorsicht! Anti-Pattern!
+    this.route.paramMap.pipe(
+      map(paramMap => paramMap.get('isbn')),
+      map(isbn => this.bs.getSingle(isbn))
+    ).subscribe(x =>
+      x.subscribe(y => console.log(y))
+    );
 
   }
 }
