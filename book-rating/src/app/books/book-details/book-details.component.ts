@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { from } from 'rxjs';
-import { map, filter, scan, reduce } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { map, filter, scan, reduce, repeat, mergeMap } from 'rxjs/operators';
 
 
 @Component({
@@ -23,7 +23,10 @@ export class BookDetailsComponent implements OnInit {
       map(x => x * 10),
       filter(x => x > 30),
       reduce((x, y) => x + y),
-      map(x => '❤️'.repeat(x))
+      mergeMap(x =>
+        of('❤️').pipe(repeat(x))
+      ),
+      reduce((x, y) => x + y)
     ).subscribe(console.log);
 
   }
