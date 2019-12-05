@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, scan, reduce } from 'rxjs/operators';
 
 
 @Component({
@@ -20,11 +20,10 @@ export class BookDetailsComponent implements OnInit {
   ngOnInit() {
 
     from([1, 2 , 3, 4, 5, 6, 7, 8, 9, 10]).pipe(
-      map(x => x * 10)
-      // 2. lasse nur Werte durch, die größer sind als 30
-      // 3. bilde die Summe aus allen Zahlen
-      // 4. knobelaufgabe: entsprechend der Summe, so viele Smilies ausgeben
-
+      map(x => x * 10),
+      filter(x => x > 30),
+      reduce((x, y) => x + y),
+      map(x => '❤️'.repeat(x))
     ).subscribe(console.log);
 
   }
