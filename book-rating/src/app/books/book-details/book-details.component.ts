@@ -15,6 +15,8 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     map(paramMap => paramMap.get('isbn'))
   );
 
+  number$: Observable<number>;
+
   active = true;
 
   constructor(private route: ActivatedRoute) { }
@@ -32,11 +34,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     subscription.unsubscribe();
 
     // warnung! leak
-    interval(1000)
-      .pipe(
-        takeWhile(() => this.active)
-      )
-      .subscribe(e => console.log(e));
+    this.number$ = interval(1000);
 
   }
 
