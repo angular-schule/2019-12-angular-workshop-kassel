@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, interval, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, takeWhile, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     map(paramMap => paramMap.get('isbn'))
   );
 
-  sub2: Subscription;
+  active = true;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -32,15 +32,15 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     subscription.unsubscribe();
 
     // warnung! leak
-    this.sub2 = interval(1000)
+    interval(1000)
       .pipe(
-        take(10)
+        takeWhile(() => this.active)
       )
       .subscribe(e => console.log(e));
 
   }
 
   ngOnDestroy() {
-    // this.sub2.unsubscribe();
+    this.active = false;
   }
 }
