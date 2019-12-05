@@ -23,10 +23,8 @@ export class BookDetailsComponent implements OnInit {
     // Vorsicht! Anti-Pattern!
     this.route.paramMap.pipe(
       map(paramMap => paramMap.get('isbn')),
-      map(isbn => this.bs.getSingle(isbn))
-    ).subscribe(x =>
-      x.subscribe(y => console.log(y))
-    );
+      mergeMap(isbn => this.bs.getSingle(isbn))
+    ).subscribe(x => console.log(x));
 
   }
 }
