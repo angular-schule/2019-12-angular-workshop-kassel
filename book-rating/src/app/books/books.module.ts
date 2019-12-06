@@ -8,10 +8,12 @@ import { CreateBookComponent } from './create-book/create-book.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BookDetailsComponent } from './book-details/book-details.component';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import * as fromBook from './reducers/book.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BookEffects } from './effects/book.effects';
+import { State } from '../reducers';
+import { loadBooks } from './actions/book.actions';
 
 @NgModule({
   declarations: [
@@ -31,4 +33,8 @@ import { BookEffects } from './effects/book.effects';
     DashboardComponent
   ]
 })
-export class BooksModule { }
+export class BooksModule {
+  constructor(private store: Store<State>) {
+    this.store.dispatch(loadBooks());
+  }
+}

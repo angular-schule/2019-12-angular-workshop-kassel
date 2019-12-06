@@ -1,7 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { State } from 'src/app/reducers';
+
 import { Book } from '../shared/book';
-import { BookRatingService } from '../shared/book-rating.service';
-import { BookStoreService } from '../shared/book-store.service';
+import { loadBooks } from '../actions/book.actions';
+import { selectBookLoading, selectBooks } from '../selectors/book.selectors';
 
 @Component({
   selector: 'br-dashboard',
@@ -9,40 +12,32 @@ import { BookStoreService } from '../shared/book-store.service';
   styleUrls: ['./dashboard.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush // WARNIG BUG! will break after introducing AJAX
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  books: Book[] = [];
+  loading$ = this.store.pipe(select(selectBookLoading, /* { nr: 5 } props here! */));
+  books$ = this.store.pipe(select(selectBooks));
 
-  constructor(private br: BookRatingService, private bs: BookStoreService) { }
-
-  ngOnInit() {
-    this.bs.getAll().subscribe(books => this.books = books);
+  constructor(private store: Store<State>) {
+    // this.store.dispatch(loadBooks());
   }
 
   doRateUp(book: Book) {
     // const ratedBook = this.br.rateUp(book);
-    // Karl was lazy and did this:
-    // const ratedBook = {
-    //   ...book,
-    //   rating: ++book.rating
-    // };
-    const ratedBook = this.br.rateUp(book);
-
-    this.updateAndSortList(ratedBook);
+    // this.updateAndSortList(ratedBook);
   }
 
   doRateDown(book: Book) {
-    const ratedBook = this.br.rateDown(book);
-    this.updateAndSortList(ratedBook);
+    // const ratedBook = this.br.rateDown(book);
+    // this.updateAndSortList(ratedBook);
   }
 
   updateAndSortList(ratedBook: Book) {
-    this.books = this.books
-      .map(book => book.isbn === ratedBook.isbn ? ratedBook : book)
-      .sort((a, b) => b.rating - a.rating);
+    // this.books = this.books
+    //   .map(book => book.isbn === ratedBook.isbn ? ratedBook : book)
+    //   .sort((a, b) => b.rating - a.rating);
   }
 
   doCreate(newBook: Book) {
-    this.books = [...this.books, newBook];
+    // this.books = [...this.books, newBook];
   }
 }

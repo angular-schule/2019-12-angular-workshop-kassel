@@ -2,12 +2,14 @@
   (create)="doCreate($event)"
 ></br-create-book>
 
+<h3 *ngIf="loading$ | async">Lade Bücher...</h3>
+
 <br-book
-  *ngFor="let b of books"
+  *ngFor="let b of books$ | async"
   [book]="b"
   (rateUp)="doRateUp($event)"
   (rateDown)="doRateDown($event)"
 ></br-book>
 
 <hr>
-Anzahl der Bücher: {{ books.length }}
+Anzahl der Bücher: {{ (books$ | async).length }}
